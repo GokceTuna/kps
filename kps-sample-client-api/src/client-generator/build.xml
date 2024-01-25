@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jaxwsProxy" basedir="." default="generate">
+    
+	<taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport" />
+    
+	<property name="proxy.output" value="${basedir}/src/main/java" />
+	<property name="wsdl.output" value="${basedir}/src/main/resources/tr/gov/nvi/kpsv2/ws/wsdl" />
+
+	<target name="setProperties">
+		<input addproperty="service.name" message="Proxy üretilecek servis adını giriniz (örn: KisiSorgulaTCKimlikNoServis): " />
+		<input addproperty="service.version" message="Servisin hangi versiyonu için proxy üretileceğini giriniz (örn: 2014/01/01, Default): " />
+		<input addproperty="service.environment" message="Hangi ortam için proxy üretileceğiniz giriniz (Test veya Production): " />
+
+		<condition property="service.isvalid" value="false" else="true">
+			<not>
+				<equals arg1="${service.name}" arg2="" />
+			</not>
+		</condition>
+
+		<fail if="${service.isvalid}" message="Servis adı boş olamaz."/>
+
+		<condition property="environment.isvalid" value="false" else="true">
+			<or>
+				<equals arg1="${service.environment}" arg2="Test" />
+				<equals arg1="${service.environment}" arg2="Production" />
+			</or>
+		</condition>
+		
+		<condition property="environment.test" value="true" else="false">
+			<equals arg1="${service.environment}" arg2="Test" />
+		</condition>
+
+		<condition property="environment.production" value="true" else="false">
+			<equals arg1="${service.environment}" arg2="Production" />
+		</condition>
+		
+		<fail if="${environment.isvalid}" message="Ortam değeri Test veya Production olmalıdır."/>
+	</target>
+
+	<target name="changePropertyCase" depends="setProperties">
+		<!-- Using Javascript functions to convert the string -->
+		<script language="javascript">
+			<![CDATA[
+		            // getting the value
+		            var actualValue = jaxwsProxy.getProperty("service.name");
+					var servis = "Servis";
+					var lowercaseValue = actualValue.toLowerCase();
+					var fullLength = lowercaseValue.length();
+					var serviceLength = servis.length;
+					
+					var lowercaseValueTruncated = lowercaseValue.substring(0, fullLength - serviceLength);
+
+		            // store the result in a new property
+					jaxwsProxy.setProperty("service.name.lower", lowercaseValueTruncated);
+		        ]]>
+		</script>
+	</target>
+
+	<target name="setPropertiesProduction" if="${environment.production}" depends="changePropertyCase">
+		<property name="wsdl.name" value="${service.name}.wsdl" />
+		<property name="wsdl.url" value="https://kpsbasvuru.nvi.gov.tr/Services/WsdlNoPolicy.ashx?Service=${service.name}&amp;Version=${service.version}" />
+		<property name="proxy.package" value="tr.gov.nvi.kpsv2.ws.${service.name.lower}" />
+		<property name="wsdl.path" value="/tr/gov/nvi/kpsv2/ws/wsdl/${wsdl.name}" />
+	</target>
+
+	<target name="setPropertiesTest" if="${environment.test}" depends="changePropertyCase">
+		<property name="wsdl.name" value="${service.name}.wsdl" />
+		<property name="wsdl.url" value="https://kpsbasvuru.nvi.gov.tr/Services/WsdlNoPolicy.ashx?Service=${service.name}&amp;Version=${service.version}&amp;TestMode=true" />
+		<property name="proxy.package" value="tr.gov.nvi.kpsv2.ws.${service.name.lower}" />
+		<property name="wsdl.path" value="/tr/gov/nvi/kpsv2/ws/wsdl/${wsdl.name}" />
+	</target>
+
+	<target name="copy-wsdl" depends="setPropertiesProduction,setPropertiesTest">
+		<get dest="${wsdl.output}/${wsdl.name}" src="${wsdl.url}"/>
+	</target>
+	
+	<target name="generate" depends="copy-wsdl">
+		<wsimport
+			wsdl="${wsdl.url}"
+			wsdlLocation="${wsdl.path}"
+			sourcedestdir="${proxy.output}"
+			xnocompile="true"
+			xendorsed="true"
+			extension="true"
+			binding="${basedir}/src/client-generator/jaxb-bindings.xml"
+			package="${proxy.package}"
+			target="2.1">
+		</wsimport>
+	</target>
+
+</project>
