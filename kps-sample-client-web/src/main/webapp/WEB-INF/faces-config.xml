@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+    version="2.0">
+	<application>
+		<locale-config>
+			<default-locale>tr_TR</default-locale>
+		</locale-config>
+	</application>
+	<managed-bean>
+		<managed-bean-name>bilesikKutukBean</managed-bean-name>
+		<managed-bean-class>tr.gov.nvi.kpsv2.sample.beans.BilesikKutukBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+        <managed-bean>
+		<managed-bean-name>kisiSorgulamaBean</managed-bean-name>
+		<managed-bean-class>tr.gov.nvi.kpsv2.sample.beans.KisiSorgulamaBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>ayarlarBean</managed-bean-name>
+		<managed-bean-class>tr.gov.nvi.kpsv2.sample.beans.AyarlarBean</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>ilListelemeBean</managed-bean-name>
+		<managed-bean-class>tr.gov.nvi.kpsv2.sample.beans.IlListelemeBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>ilceListelemeBean</managed-bean-name>
+		<managed-bean-class>tr.gov.nvi.kpsv2.sample.beans.IlceListelemeBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>kisiListelemeBean</managed-bean-name>
+		<managed-bean-class>tr.gov.nvi.kpsv2.sample.beans.KisiListelemeBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>ayarlar</from-outcome>
+			<to-view-id>/ayarlar.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>menu</display-name>
+		<from-view-id>/menu.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>kisiSorgula</from-outcome>
+			<to-view-id>/kisiSorgula.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>ayarlar</from-outcome>
+			<to-view-id>/ayarlar.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>kisiSorgula</display-name>
+		<from-view-id>/kisiSorgula.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>sonuc</from-outcome>
+			<to-view-id>/kisiSorgulaSonuc.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>kisiSorgulaSonuc</display-name>
+		<from-view-id>/kisiSorgulaSonuc.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>yeni</from-outcome>
+			<to-view-id>/kisiSorgula.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>menu</display-name>
+		<from-view-id>/menu.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>ilListesi</from-outcome>
+			<to-view-id>/ilListesi.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>ilListesi</display-name>
+		<from-view-id>/ilListesi.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>ilceListesi</from-outcome>
+			<to-view-id>/ilceListesi.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>ilceListesi</display-name>
+		<from-view-id>/ilceListesi.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>ilListesi</from-outcome>
+			<to-view-id>/ilListesi.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>kisiListele</display-name>
+		<from-view-id>/kisiListele.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>sonuc</from-outcome>
+			<to-view-id>/kisiListeleSonuc.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>kisiListeleSonuc</display-name>
+		<from-view-id>/kisiListeleSonuc.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>yeni</from-outcome>
+			<to-view-id>/kisiListele.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>menu</from-outcome>
+			<to-view-id>/menu.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>menu</display-name>
+		<from-view-id>/menu.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>kisiListele</from-outcome>
+			<to-view-id>/kisiListele.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+        
+        <navigation-rule>
+		<display-name>menu</display-name>
+		<from-view-id>/menu.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>bilesikKutukSorgula</from-outcome>
+			<to-view-id>/bilesikKutukSorgula.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+        <navigation-rule>
+		<display-name>bilesikKutukSorgula</display-name>
+		<from-view-id>/bilesikKutukSorgula.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>sonuc</from-outcome>
+			<to-view-id>/bilesikKutukSorgulaSonuc.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>bilesikKutukSorgulaSonuc</display-name>
+		<from-view-id>/bilesikKutukSorgulaSonuc.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>yeni</from-outcome>
+			<to-view-id>/bilesikKutukSorgula.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+        
+	<lifecycle>
+		<phase-listener>tr.gov.nvi.kpsv2.sample.listeners.ConfigurationCheck</phase-listener>
+	</lifecycle>
+</faces-config>
