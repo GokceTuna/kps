@@ -2,6 +2,9 @@
 package tr.gov.nvi.kpsv2.ws.bilesikkutuksorgulakimlikno;
 
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
@@ -25,7 +28,8 @@ public class BilesikKutukSorgulaKimlikNoServis_Service
     private final static WebServiceException BILESIKKUTUKSORGULAKIMLIKNOSERVIS_EXCEPTION;
     private final static QName BILESIKKUTUKSORGULAKIMLIKNOSERVIS_QNAME = new QName("http://kps.nvi.gov.tr/2011/01/01", "BilesikKutukSorgulaKimlikNoServis");
 
-    static {
+    static {        
+
         BILESIKKUTUKSORGULAKIMLIKNOSERVIS_WSDL_LOCATION = tr.gov.nvi.kpsv2.ws.bilesikkutuksorgulakimlikno.BilesikKutukSorgulaKimlikNoServis_Service.class.getResource("/tr/gov/nvi/kpsv2/ws/wsdl/BilesikKutukSorgulaKimlikNoServis.wsdl");
         WebServiceException e = null;
         if (BILESIKKUTUKSORGULAKIMLIKNOSERVIS_WSDL_LOCATION == null) {
